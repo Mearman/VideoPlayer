@@ -15,3 +15,9 @@ A/a: "Prev" (Previous frame) <br>
 E/e: "Fast" (Increase playing speed) <br>
 Q/q: "Slow" (Decrease playing speed) <br>
 C/c: "Snap" (Screenshot feature)<br>
+
+
+
+# open cv 安装.
+1.https://www.anaconda.com/distribution/ 
+2. conda install -c menpo opencv  
