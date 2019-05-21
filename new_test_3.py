@@ -18,15 +18,17 @@ video = sys.argv[1]
 
 windName = video
 
+#cv2.namedWindow(windName,cv2.WINDOW_NORMAL)
 cv2.namedWindow(windName)
-cv2.moveWindow(windName, 250, 150)
+cv2.moveWindow(windName, 100, 100)
+cv2.resizeWindow(windName, 500, 100)
 
-cv2.namedWindow('controls')
-cv2.moveWindow('controls', 250, 50)
+#cv2.namedWindow('controls')
+#cv2.moveWindow('controls', 250, 50)
 
-controls = np.zeros((50, 750), np.uint8)
-cv2.putText(controls, "W/w: Play, S/s: Stay, A/a: Prev, D/d: Next, E/e: Fast, Q/q: Slow, Esc: Exit",
-            (40, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
+#controls = np.zeros((50, 750), np.uint8)
+#cv2.putText(controls, "W/w: Play, S/s: Stay, A/a: Prev, D/d: Next, E/e: Fast, Q/q: Slow, Esc: Exit",
+#            (40, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
 
 cap = cv2.VideoCapture(video)
 tots = cap.get(cv2.CAP_PROP_FRAME_COUNT)
@@ -64,20 +66,20 @@ while True:
             i = 0
         
         cv2.setTrackbarPos('S', windName, i)
-        if preIndex != i+1 and preIndex != i-1:
+        if preIndex != i-1 :
             cap.set(cv2.CAP_PROP_POS_FRAMES, i)
             print('call seek')
+        
+        
                 
+        #print('preindex i',preIndex,i)
         ret, im = cap.read()
         displayW = 1280.0
         r = displayW / im.shape[1]
         dim = (int(displayW), int(im.shape[0] * r))
         im = cv2.resize(im, dim, interpolation=cv2.INTER_AREA)
-        if im.shape[0] > 1600:
-            im = cv2.resize(im, (500, 500))
-            controls = cv2.resize(controls, (im.shape[1], 25))
-        #putText(图片，添加的文字，左上角坐标，字体，字体大小，颜色，字体粗细)
-        cv2.putText(im,  str(i), (10, 30),
+
+        cv2.putText(im,  str(i), (10, 30),#putText(图片，添加的文字，左上角坐标，字体，字体大小，颜色，字体粗细)
                     cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
         cv2.imshow(windName, im)
         if status != 'play':
