@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
-                "d:\\xajh.mp4"
+                "d:\\drw_ori.mp4"
             ]
         }
     ]
