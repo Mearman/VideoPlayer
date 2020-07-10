@@ -55,6 +55,7 @@ for current_frame, line in enumerate(help_text.split('\n')):
 
 cap = cv2.VideoCapture(video)
 frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+print("frame_count", frame_count)
 
 current_frame = 0
 preIndex = 0
@@ -98,13 +99,15 @@ while True:
 	try:
 
 		if current_state != state_pause or preIndex != current_frame:
-			if current_frame == frame_count - 1:
+			if current_frame >= frame_count:
 				current_frame = 0
+			elif current_frame < 0:
+				current_frame = int(frame_count - 1)
 
 			cv2.setTrackbarPos(frame_trackbar, window_video, current_frame)
 			if preIndex != current_frame - 1:
 				cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame)
-				print('call seek')
+				print("seek to", current_frame)
 
 			print('index', current_frame)
 			ret, im = cap.read()
@@ -167,7 +170,6 @@ while True:
 			current_frame += 5
 		if current_state == state_skip_back_5:
 			current_frame -= 5
-			current_frame = current_frame if (current_frame >= 0) else 0
 		if current_state == state_play_toggle:
 			current_state = state_pause if (preStatus == state_play) else state_play
 
