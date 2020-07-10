@@ -127,13 +127,13 @@ while True:
 			print('index', frame_index_current)
 			ret, im = cap.read()
 
-			cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
+			# cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 			df_current_row = df.iloc[frame_index_current, :]
 			df_string = ' '.join(str(int(d)) for d in df_current_row)
 			print("df at", frame_index_current, "\n" + df_string)
-			cv2.putText(im, df_string, (10, 60), cv2.FONT_HERSHEY_SIMPLEX,
+			cv2.putText(im, df_string, (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
 						0.75,
-						(128, 128, 128),
+						(0, 255, 0),
 						1)
 			cv2.imshow(window_video, im)
 			if current_state != state_play:
