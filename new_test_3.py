@@ -73,8 +73,7 @@ while True:
 			dim = (int(displayW), int(im.shape[0] * r))
 			im = cv2.resize(im, dim, interpolation=cv2.INTER_AREA)
 
-			cv2.putText(im, str(i), (10, 30),  # putText(图片，添加的文字，左上角坐标，字体，字体大小，颜色，字体粗细)
-						cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
+			cv2.putText(im, str(i), (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
 			cv2.imshow(window_video, im)
 			if status != 'play':
 				status = 'stay'
@@ -93,11 +92,11 @@ while True:
 			ord('c'): 'snap', ord('C'): 'snap',
 			ord('j'): 'next_5_frame', ord('J'): 'next_5_frame',
 			ord('h'): 'pre_5_frame', ord('H'): 'pre_5_frame',
-			ord(' '): 'play_pause', ord(' '): 'play_pause',  # 空格
-			2555904: 'next_5_frame',  # 后方向键
-			2424832: 'pre_5_frame',  # 后方向键
-			2490368: 'next_frame',  # 向上方向
-			2621440: 'prev_frame',  # 向下方向
+			ord(' '): 'play_pause', ord(' '): 'play_pause',
+			2555904: 'next_5_frame',
+			2424832: 'pre_5_frame',
+			2490368: 'next_frame',
+			2621440: 'prev_frame',
 			-1: status,
 			27: 'exit'}[cv2.waitKeyEx(10)]
 
