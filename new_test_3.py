@@ -182,11 +182,11 @@ while True:
 		elif current_state == state_speed_decrease:
 			frame_rate = max(frame_rate - fps_increment, 0)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
-			current_state = state_play
+			current_state = state_play if (state_previous == state_play) else state_pause
 		elif current_state == state_speed_increase:
 			frame_rate = min(100, frame_rate + fps_increment)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
-			current_state = state_play
+			current_state = state_play if (state_previous == state_play) else state_pause
 		elif current_state == state_snapshot:
 			cv2.putText(im, str(frame_index_current), (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 			snapshot_filename = video.split(".")[0] + "_snapshot_" + str(frame_index_current).rjust(5, '0') + ".jpg"
