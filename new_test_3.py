@@ -66,7 +66,7 @@ while True:
 				cap.set(cv2.CAP_PROP_POS_FRAMES, i)
 				print('call seek')
 
-			# print('preindex i',preIndex,i)
+			print('index', i)
 			ret, im = cap.read()
 			displayW = 1280.0
 			r = displayW / im.shape[1]
