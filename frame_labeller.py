@@ -6,9 +6,29 @@ import cv2
 import numpy as np
 import pandas as pd
 
+column_headings = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
 
 def flick(x):
 	pass
+
+
+def get_dataframe(video_file):
+	filename_csv = video_file.split(".")[0] + ".csv"
+	if os.path.exists(filename_csv):
+		return pd.read_csv(filename_csv, header=None, index_col=None)
+	else:
+		return pd.DataFrame(
+			False,
+			index=range(
+				0,
+				int(
+					cv2.VideoCapture(video_file)
+						.get(cv2.CAP_PROP_FRAME_COUNT)
+				)
+			),
+			columns=column_headings
+		)
 
 
 if len(sys.argv) > 1:
@@ -68,10 +88,8 @@ print("frame_count", frame_count)
 temp_im = cap.read()[1]
 cv2.resizeWindow(window_video, temp_im.shape[1] * 2, temp_im.shape[0] * 2)
 
-column_headings = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+df = get_dataframe(video)
 
-df = pd.DataFrame(False, index=range(0, int(frame_count)),
-				  columns=column_headings)
 print(df)
 
 frame_index_current = 0
@@ -111,6 +129,13 @@ def process(im):
 
 
 create_track_bar()
+
+
+def save_csv(video, df):
+	filename_csv = video.split(".")[0] + ".csv"
+	np.savetxt(filename_csv, df, delimiter=',')
+	print("csv saved to", filename_csv)
+
 
 while True:
 	cv2.imshow(windows_controls, controls)
@@ -197,8 +222,7 @@ while True:
 			cv2.imwrite(snapshot_filename, im)
 			print("frame", frame_index_current, "snapshot saved to", snapshot_filename)
 		elif current_state == state_save_csv:
-			filename_csv = video.split(".")[0] + ".csv"
-			np.savetxt(filename_csv, df, delimiter=',')
+			save_csv(video, df)
 		elif current_state == state_skip_fwd_big:
 			frame_index_current += big_skip
 		elif current_state == state_skip_back_big:
@@ -209,6 +233,7 @@ while True:
 			df.iat[frame_index_current, int(current_state)] = not df.iloc[frame_index_current, int(current_state)]
 			print("df at", frame_index_current, "update to",
 				  "\n" + ' '.join(str(int(d)) for d in df.iloc[frame_index_current, :]))
+			save_csv(video, df)
 	except KeyError:
 		print("Invalid Key was pressed")
 cv2.destroyAllWindows()
