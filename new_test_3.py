@@ -2,6 +2,7 @@ import sys
 from time import sleep
 
 import cv2
+import numpy
 
 
 def flick(x):
@@ -15,18 +16,19 @@ if len(sys.argv) <= 1:
 video = sys.argv[1]
 
 windName = video
+windows_controls = "controls"
 
 # cv2.namedWindow(windName,cv2.WINDOW_NORMAL)
 cv2.namedWindow(windName)
 cv2.moveWindow(windName, 100, 100)
 cv2.resizeWindow(windName, 500, 100)
 
-# cv2.namedWindow('controls')
+cv2.namedWindow(windows_controls)
 # cv2.moveWindow('controls', 250, 50)
 
-# controls = np.zeros((50, 750), np.uint8)
-# cv2.putText(controls, "W/w: Play, S/s: Stay, A/a: Prev, D/d: Next, E/e: Fast, Q/q: Slow, Esc: Exit",
-#            (40, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
+controls = numpy.zeros((50, 750), numpy.uint8)
+cv2.putText(controls, "W/w: Play, S/s: Stay, A/a: Prev, D/d: Next, E/e: Fast, Q/q: Slow, Esc: Exit", (40, 20),
+			cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
 
 cap = cv2.VideoCapture(video)
 tots = cap.get(cv2.CAP_PROP_FRAME_COUNT)
@@ -53,7 +55,7 @@ def process(im):
 create_track_bar()
 
 while True:
-	# cv2.imshow("controls",controls)
+	cv2.imshow(windows_controls, controls)
 	try:
 
 		if status != 'stay' or preIndex != i:
