@@ -182,6 +182,7 @@ while True:
 		elif current_state == state_speed_decrease:
 			frame_rate = max(frame_rate - fps_increment, 0)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
+			current_state = state_play
 		elif current_state == state_speed_increase:
 			frame_rate = min(100, frame_rate + fps_increment)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
