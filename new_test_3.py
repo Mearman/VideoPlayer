@@ -171,36 +171,36 @@ while True:
 			else:
 				current_state = state_pause
 			continue
-		if current_state == state_pause:
+		elif current_state == state_pause:
 			frame_index_current = cv2.getTrackbarPos(frame_trackbar, window_video)
-		if current_state == state_exit:
+		elif current_state == state_exit:
 			break
-		if current_state == state_skip_back:
+		elif current_state == state_skip_back:
 			frame_index_current -= 1
-		if current_state == state_skip_fwd:
+		elif current_state == state_skip_fwd:
 			frame_index_current += 1
-		if current_state == state_speed_decrease:
+		elif current_state == state_speed_decrease:
 			frame_rate = max(frame_rate - fps_increment, 0)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
-		if current_state == state_speed_increase:
+		elif current_state == state_speed_increase:
 			frame_rate = min(100, frame_rate + fps_increment)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 			current_state = state_play
-		if current_state == state_snapshot:
+		elif current_state == state_snapshot:
 			cv2.putText(im, str(frame_index_current), (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 			snapshot_filename = video.split(".")[0] + "_snapshot_" + str(frame_index_current).rjust(5, '0') + ".jpg"
 			cv2.imwrite(snapshot_filename, im)
 			print("frame", frame_index_current, "snapshot saved to", snapshot_filename)
-		if current_state == state_save_csv:
+		elif current_state == state_save_csv:
 			filename_csv = video.split(".")[0] + ".csv"
 			np.savetxt(filename_csv, df, delimiter=',')
-		if current_state == state_skip_fwd_big:
+		elif current_state == state_skip_fwd_big:
 			frame_index_current += big_skip
-		if current_state == state_skip_back_big:
+		elif current_state == state_skip_back_big:
 			frame_index_current -= big_skip
-		if current_state == state_play_toggle:
+		elif current_state == state_play_toggle:
 			current_state = state_pause if (preStatus == state_play) else state_play
-		if current_state in column_headings:
+		elif current_state in column_headings:
 			df.iat[frame_index_current, int(current_state)] = not df.iloc[frame_index_current, int(current_state)]
 			print("df at", frame_index_current, "update to",
 				  "\n" + ' '.join(str(int(d)) for d in df.iloc[frame_index_current, :]))
