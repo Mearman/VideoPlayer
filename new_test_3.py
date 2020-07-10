@@ -27,11 +27,32 @@ cv2.resizeWindow(window_video, 500, 100)
 cv2.namedWindow(windows_controls)
 # cv2.moveWindow('controls', 250, 50)
 
-controls = numpy.zeros((50, 750), numpy.uint8)
-cv2.putText(controls,
-			"Space: Play/Pause, Left/Right: 1 frame jump, Up/Down: 5 frame jump, +/-: playback speed, Esc: Exit",
-			(40, 20),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
+
+command_text_array = [
+	"Space     Play/Pause",
+	"Left/Right     Jump 1 frame",
+	"Up/Down     Jump 5 frames",
+	"+/-     Change FPS",
+	"c     Save frame",
+	"esc     Quit", ]
+help_text = "\n".join(command_text_array)
+print(help_text)
+
+font_size = 0.75
+height_factor = 40
+line_height = int(font_size * height_factor)
+width_factor = 20
+char_width = int(font_size * width_factor)
+
+controls_height = int(line_height * (len(command_text_array) + 0.5))
+controls_width = int(char_width * max([len(x) for x in command_text_array]))
+
+controls = numpy.zeros((controls_height, controls_width), numpy.uint8)
+
+y0, dy = line_height, line_height
+for i, line in enumerate(help_text.split('\n')):
+	y = y0 + i * dy
+	cv2.putText(controls, line, (int(line_height / 2), y), cv2.FONT_HERSHEY_SIMPLEX, font_size, 255)
 
 cap = cv2.VideoCapture(video)
 tots = cap.get(cv2.CAP_PROP_FRAME_COUNT)
