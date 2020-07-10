@@ -186,6 +186,7 @@ while True:
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 			current_state = state_play
 		if current_state == state_snapshot:
+			cv2.putText(im, str(frame_index_current), (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 			snapshot_filename = video.split(".")[0] + "_snapshot_" + str(frame_index_current).rjust(5, '0') + ".jpg"
 			cv2.imwrite(snapshot_filename, im)
 			print("frame", frame_index_current, "snapshot saved to", snapshot_filename)
