@@ -111,11 +111,7 @@ while True:
 
 			print('index', frame_index_current)
 			ret, im = cap.read()
-			# displayW = 1280.0
-			# r = displayW / im.shape[1]
-			# dim = (int(displayW), int(im.shape[0] * r))
-			# im = cv2.resize(im, dim, interpolation=cv2.INTER_AREA)
-			# h, w, _ = im.shape
+			
 			cv2.resizeWindow(window_video, im.shape[1] * 2, im.shape[0] * 2)
 
 			cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
