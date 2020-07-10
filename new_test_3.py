@@ -10,9 +10,6 @@ def flick(x):
 	pass
 
 
-monitor_size = (get_monitors()[0].width, get_monitors()[0].height)
-print(monitor_size)
-
 if len(sys.argv) > 1:
 	video = sys.argv[1]
 else:
