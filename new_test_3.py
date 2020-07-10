@@ -114,7 +114,7 @@ while True:
 
 			cv2.resizeWindow(window_video, im.shape[1] * 2, im.shape[0] * 2)
 
-			cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
+			cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 			cv2.imshow(window_video, im)
 			if current_state != state_play:
 				current_state = state_pause
