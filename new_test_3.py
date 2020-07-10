@@ -144,7 +144,7 @@ while True:
 			if not bFirstInitUi:
 				bFirstInitUi = True
 
-		preStatus = current_state
+		state_previous = current_state
 		current_state = {
 			ord(' '): state_play_toggle,
 			2555904: state_skip_fwd,
@@ -200,7 +200,7 @@ while True:
 		elif current_state == state_skip_back_big:
 			frame_index_current -= big_skip
 		elif current_state == state_play_toggle:
-			current_state = state_pause if (preStatus == state_play) else state_play
+			current_state = state_pause if (state_previous == state_play) else state_play
 		elif current_state in column_headings:
 			df.iat[frame_index_current, int(current_state)] = not df.iloc[frame_index_current, int(current_state)]
 			print("df at", frame_index_current, "update to",
