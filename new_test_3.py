@@ -4,6 +4,7 @@ from time import sleep
 
 import cv2
 import numpy
+import pandas
 
 
 def flick(x):
@@ -34,12 +35,13 @@ cv2.namedWindow(windows_controls)
 cv2.moveWindow(windows_controls, 100, 100)
 print("\nControls:", "\n")
 command_text_array = [
-	"Space     Play/Pause",
-	"Left/Right     Jump 1 frame",
-	"Up/Down     Jump 5 frames",
-	"+/-     Change FPS",
-	"c     Save frame",
-	"esc     Quit", ]
+	"Space      Play/Pause",
+	"Left/Right  Jump 1 frame",
+	"Up/Down   Jump 5 frames",
+	"+/-       Change FPS",
+	"c/s           Save frame",
+	"0-9        Toggle label 0-9",
+	"esc/q      Quit", ]
 help_text = "\n".join(command_text_array)
 print(help_text, "\n")
 
@@ -64,6 +66,10 @@ frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
 print("frame_count", frame_count)
 temp_im = cap.read()[1]
 cv2.resizeWindow(window_video, temp_im.shape[1] * 2, temp_im.shape[0] * 2)
+
+df = pandas.DataFrame(False, index=range(0, int(frame_count)),
+					  columns=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+print(df)
 
 frame_index_current = 0
 frame_index_previous = 0
