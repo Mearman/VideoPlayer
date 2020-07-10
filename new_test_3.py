@@ -1,3 +1,4 @@
+import os
 import sys
 from time import sleep
 
@@ -9,11 +10,19 @@ def flick(x):
 	pass
 
 
-if len(sys.argv) <= 1:
-	print('not set file name')
-	exit()
+monitor_size = (get_monitors()[0].width, get_monitors()[0].height)
+print(monitor_size)
 
-video = sys.argv[1]
+if len(sys.argv) > 1:
+	video = sys.argv[1]
+else:
+	print("No file name argument provided")
+	valid_file = False
+	while not valid_file:
+		video = input("Full video path: ")
+		valid_file = os.path.exists(video)
+		if not valid_file:
+			print("Sorry that wasn't valid")
 
 window_video = video
 windows_controls = "controls"
@@ -26,8 +35,7 @@ cv2.moveWindow(window_video, 500, 100)
 
 cv2.namedWindow(windows_controls)
 cv2.moveWindow(windows_controls, 100, 100)
-
-
+print("\nControls:", "\n")
 command_text_array = [
 	"Space     Play/Pause",
 	"Left/Right     Jump 1 frame",
@@ -36,7 +44,7 @@ command_text_array = [
 	"c     Save frame",
 	"esc     Quit", ]
 help_text = "\n".join(command_text_array)
-print(help_text)
+print(help_text, "\n")
 
 font_size = 0.75
 height_factor = 40
