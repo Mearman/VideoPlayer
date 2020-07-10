@@ -54,7 +54,7 @@ for current_frame, line in enumerate(help_text.split('\n')):
 	cv2.putText(controls, line, (int(line_height / 2), y), cv2.FONT_HERSHEY_SIMPLEX, font_size, 255)
 
 cap = cv2.VideoCapture(video)
-tots = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
 
 current_frame = 0
 preIndex = 0
@@ -80,7 +80,7 @@ current_state = state_skip_fwd
 
 
 def create_track_bar():
-	cv2.createTrackbar(frame_trackbar, window_video, 0, int(tots) - 1, flick)
+	cv2.createTrackbar(frame_trackbar, window_video, 0, int(frame_count) - 1, flick)
 	cv2.setTrackbarPos(frame_trackbar, window_video, 0)
 
 	cv2.createTrackbar(speed_trackbar, window_video, 1, 100, flick)
@@ -98,7 +98,7 @@ while True:
 	try:
 
 		if current_state != state_pause or preIndex != current_frame:
-			if current_frame == tots - 1:
+			if current_frame == frame_count - 1:
 				current_frame = 0
 
 			cv2.setTrackbarPos(frame_trackbar, window_video, current_frame)
