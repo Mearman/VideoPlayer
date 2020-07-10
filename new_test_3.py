@@ -39,7 +39,8 @@ command_text_array = [
 	"Left/Right  Jump 1 frame",
 	"Up/Down   Jump 5 frames",
 	"+/-       Change FPS",
-	"c/s           Save frame",
+	"c           Capture frame",
+	"s           Save csv of labels",
 	"0-9        Toggle label 0-9",
 	"esc/q      Quit", ]
 help_text = "\n".join(command_text_array)
