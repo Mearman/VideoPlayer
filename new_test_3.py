@@ -140,6 +140,8 @@ while True:
 			if frame_rate > 0:
 				sleep(1.0 / frame_rate)
 				frame_index_current += 1
+			else:
+				current_state = state_pause
 			continue
 		if current_state == state_pause:
 			frame_index_current = cv2.getTrackbarPos(frame_trackbar, window_video)
