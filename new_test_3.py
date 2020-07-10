@@ -90,6 +90,7 @@ state_skip_back_big = "state_skip_back_big"
 state_speed_increase = "speed_increase"
 state_speed_decrease = "speed_decrease"
 state_snapshot = "snapshot"
+state_save_csv = "save_csv"
 state_play_toggle = "play_toggle"
 state_exit = "exit"
 
@@ -152,7 +153,7 @@ while True:
 			ord('+'): state_speed_increase, ord('='): state_speed_increase,
 			ord('-'): state_speed_decrease, ord('_'): state_speed_decrease,
 			ord('c'): state_snapshot, ord('C'): state_snapshot,
-			ord('s'): state_snapshot, ord('s'): state_snapshot,
+			ord('s'): state_save_csv, ord('s'): state_save_csv,
 			ord('0'): "0", ord('1'): "1", ord('2'): "2", ord('3'): "3", ord('4'): "4", ord('5'): "5", ord('6'): "6",
 			ord('7'): "7",
 			ord('8'): "8", ord('9'): "9",
@@ -192,6 +193,9 @@ while True:
 				str(frame_index_current).rjust(5, '0') + ".jpg"
 			cv2.imwrite(snapshot_filename, im)
 			print("frame", frame_index_current, "snapshot saved to", snapshot_filename)
+		if current_state == state_save_csv:
+			filename_csv = video.split(".")[0] + ".csv"
+			np.savetxt(filename_csv, df, delimiter=',')
 		if current_state == state_skip_fwd_big:
 			frame_index_current += big_skip
 		if current_state == state_skip_back_big:
