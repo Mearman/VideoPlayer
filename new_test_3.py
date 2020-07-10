@@ -138,7 +138,9 @@ while True:
 			ord('-'): state_speed_decrease, ord('_'): state_speed_decrease,
 			ord('c'): state_snapshot, ord('C'): state_snapshot,
 			-1: current_state,
-			27: state_exit}[cv2.waitKeyEx(10)]
+			ord('q'): state_exit, ord('Q'): state_exit,
+			27: state_exit
+		}[cv2.waitKeyEx(10)]
 
 		if current_state == state_play:
 			frame_rate = cv2.getTrackbarPos(speed_trackbar, window_video)
