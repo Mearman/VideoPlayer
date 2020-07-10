@@ -137,6 +137,7 @@ while True:
 			ord('+'): state_speed_increase, ord('='): state_speed_increase,
 			ord('-'): state_speed_decrease, ord('_'): state_speed_decrease,
 			ord('c'): state_snapshot, ord('C'): state_snapshot,
+			ord('s'): state_snapshot, ord('s'): state_snapshot,
 			-1: current_state,
 			ord('q'): state_exit, ord('Q'): state_exit,
 			27: state_exit
