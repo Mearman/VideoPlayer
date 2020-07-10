@@ -1,23 +1,37 @@
 # VideoPlayer
-Python/OpenCV based Video Player with keyboard and mouse controls. 
-Useful for Research purposes, when one wishes to monitor the video frame by frame.
+This Python tool uses OpenCV, to playback a video frame by frame for the purposes of labelling for machine learning model training.
 
-Contributions are welcome!
+The video can be played through with variable FPS and skipped forward and backward frame-by-frame.
 
-To run the program: <br>
+When scrubbing through frames, arbitrary labels of 0 - 9 can be assigned with the 0-9 keys on a frame-by-frame basis. The labels are automatically exported and load to and from a csv in the same directory as the video.
 
-<code> $ python alpha_player_1.py video_file.mp4 </code>
-<br><br>
-W/w: "Play" <br>
-S/s: "Stay" (Pause) [I like keeping things rhyming!] <br>
-D/d: "Next" (Next frame) <br>
-A/a: "Prev" (Previous frame) <br>
-E/e: "Fast" (Increase playing speed) <br>
-Q/q: "Slow" (Decrease playing speed) <br>
-C/c: "Snap" (Screenshot feature)<br>
+## Dependency installation
+```
+pip install opencv-python
+pip install pandas
+pip install numpy
+```
 
+## Usage:
 
+`$ python frame_labeller.py videos/video_file.mp4`
 
-# open cv 安装.
-1.https://www.anaconda.com/distribution/ 
-2. conda install -c menpo opencv  
+When no params are passed, you'll be prompted to provide a valid file 
+
+```
+$ python frame_labeller.py videos/video_file.mp4
+No file name argument provided
+Full video path:
+```
+
+## Keyboard commands
+```
+Space       Play/Pause
+Left/Right  Jump 1 frame
+Up/Down     Jump 5 frames
++/-         Change FPS
+c           Capture frame
+s           Save csv of labels
+0-9         Toggle label 0-9
+esc/q       Quit
+```
