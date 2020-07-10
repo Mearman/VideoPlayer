@@ -18,6 +18,8 @@ video = sys.argv[1]
 window_video = video
 windows_controls = "controls"
 
+fps_increment = 5
+
 cv2.namedWindow(window_video, cv2.WINDOW_NORMAL)
 cv2.moveWindow(window_video, 100, 100)
 cv2.resizeWindow(window_video, 500, 100)
@@ -120,10 +122,10 @@ while True:
 		if status == 'next_frame':
 			i += 1
 		if status == 'slow':
-			frame_rate = max(frame_rate - 5, 1)
+			frame_rate = max(frame_rate - fps_increment, 1)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 		if status == 'fast':
-			frame_rate = min(100, frame_rate + 5)
+			frame_rate = min(100, frame_rate + fps_increment)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 			status = 'play'
 		if status == 'snap':
