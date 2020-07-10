@@ -65,6 +65,8 @@ for frame_index_current, line in enumerate(help_text.split('\n')):
 cap = cv2.VideoCapture(video)
 frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
 print("frame_count", frame_count)
+temp_im = cap.read()[1]
+cv2.resizeWindow(window_video, temp_im.shape[1] * 2, temp_im.shape[0] * 2)
 
 frame_index_current = 0
 frame_index_previous = 0
@@ -106,7 +108,6 @@ create_track_bar()
 while True:
 	cv2.imshow(windows_controls, controls)
 	try:
-
 		if current_state != state_pause or frame_index_previous != frame_index_current:
 			if frame_index_current >= frame_count:
 				frame_index_current = 0
@@ -120,8 +121,6 @@ while True:
 
 			print('index', frame_index_current)
 			ret, im = cap.read()
-
-			cv2.resizeWindow(window_video, im.shape[1] * 2, im.shape[0] * 2)
 
 			cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 			cv2.imshow(window_video, im)
