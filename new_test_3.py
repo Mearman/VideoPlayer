@@ -3,8 +3,8 @@ import sys
 from time import sleep
 
 import cv2
-import numpy
-import pandas
+import numpy as np
+import pandas as pd
 
 
 def flick(x):
@@ -54,7 +54,7 @@ char_width = int(font_size * width_factor)
 controls_height = int(line_height * (len(command_text_array) + 0.5))
 controls_width = int(char_width * max([len(x) for x in command_text_array]))
 
-controls = numpy.zeros((controls_height, controls_width), numpy.uint8)
+controls = np.zeros((controls_height, controls_width), np.uint8)
 
 y0, dy = line_height, line_height
 for frame_index_current, line in enumerate(help_text.split('\n')):
@@ -67,8 +67,8 @@ print("frame_count", frame_count)
 temp_im = cap.read()[1]
 cv2.resizeWindow(window_video, temp_im.shape[1] * 2, temp_im.shape[0] * 2)
 
-df = pandas.DataFrame(False, index=range(0, int(frame_count)),
-					  columns=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+df = pd.DataFrame(False, index=range(0, int(frame_count)),
+				  columns=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
 print(df)
 
 frame_index_current = 0
