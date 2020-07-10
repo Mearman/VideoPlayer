@@ -1,5 +1,6 @@
-# VideoPlayer
-This Python tool uses OpenCV, to playback a video frame by frame for the purposes of labelling for machine learning model training.
+# Introduction
+ML-Frabeller is a Python based video frame labelleling tool aimed at laballeing video datasets for machine learning model training.
+This tool uses OpenCV for its GUI and to allow frame by frame playback.
 
 The video can be played through with variable FPS and skipped forward and backward frame-by-frame.
 
