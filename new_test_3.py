@@ -21,11 +21,10 @@ windows_controls = "controls"
 fps_increment = 5
 
 cv2.namedWindow(window_video, cv2.WINDOW_NORMAL)
-cv2.moveWindow(window_video, 100, 100)
-cv2.resizeWindow(window_video, 500, 100)
+cv2.moveWindow(window_video, 500, 100)
 
 cv2.namedWindow(windows_controls)
-# cv2.moveWindow('controls', 250, 50)
+cv2.moveWindow(windows_controls, 100, 100)
 
 
 command_text_array = [
@@ -109,10 +108,12 @@ while True:
 
 			print('index', current_frame)
 			ret, im = cap.read()
-			displayW = 1280.0
-			r = displayW / im.shape[1]
-			dim = (int(displayW), int(im.shape[0] * r))
-			im = cv2.resize(im, dim, interpolation=cv2.INTER_AREA)
+			# displayW = 1280.0
+			# r = displayW / im.shape[1]
+			# dim = (int(displayW), int(im.shape[0] * r))
+			# im = cv2.resize(im, dim, interpolation=cv2.INTER_AREA)
+			# h, w, _ = im.shape
+			cv2.resizeWindow(window_video, im.shape[1] * 2, im.shape[0] * 2)
 
 			cv2.putText(im, str(current_frame), (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
 			cv2.imshow(window_video, im)
@@ -172,4 +173,6 @@ while True:
 
 	except KeyError:
 		print("Invalid Key was pressed")
-cv2.destroyWindow(window_video)
+cv2.destroyAllWindows()
+
+# cv2.destroyWindow(window_video)
