@@ -103,18 +103,14 @@ while True:
 
 		preStatus = current_state
 		current_state = {
-			ord('s'): state_pause, ord('S'): state_pause,
-			ord('w'): state_play, ord('W'): state_play,
-			ord('a'): state_skip_back, ord('A'): state_skip_back,
-			ord('d'): state_skip_fwd, ord('D'): state_skip_fwd,
-			ord('-'): state_speed_decrease, ord('_'): state_speed_decrease,
-			ord('+'): state_speed_increase, ord('='): state_speed_increase,
-			ord('c'): state_snapshot, ord('C'): state_snapshot,
 			ord(' '): state_play_toggle,
 			2555904: state_skip_fwd,
 			2424832: state_skip_back,
 			2490368: state_skip_fwd_5,
 			2621440: state_skip_back_5,
+			ord('+'): state_speed_increase, ord('='): state_speed_increase,
+			ord('-'): state_speed_decrease, ord('_'): state_speed_decrease,
+			ord('c'): state_snapshot, ord('C'): state_snapshot,
 			-1: current_state,
 			27: state_exit}[cv2.waitKeyEx(10)]
 
