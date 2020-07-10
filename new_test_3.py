@@ -111,7 +111,7 @@ while True:
 
 			print('index', frame_index_current)
 			ret, im = cap.read()
-			
+
 			cv2.resizeWindow(window_video, im.shape[1] * 2, im.shape[0] * 2)
 
 			cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
@@ -159,10 +159,11 @@ while True:
 		if current_state == state_snapshot:
 			split_video_string = video.replace("\\", "/").split("/")
 			filename = split_video_string[len(split_video_string) - 1]
-			snapshot_filename = "./" + filename.split(".")[0] + "_snapshot_" + str(frame_index_current).rjust(5,
-																											  '0') + ".jpg"
+			snapshot_filename = \
+				"./" + filename.split(".")[0] + "_snapshot_" + \
+				str(frame_index_current).rjust(5, '0') + ".jpg"
 			cv2.imwrite(snapshot_filename, im)
-			print("Snap of Frame", frame_index_current, "saved to", snapshot_filename)
+			print("frame", frame_index_current, "snapshot saved to", snapshot_filename)
 		if current_state == state_skip_fwd_5:
 			frame_index_current += 5
 		if current_state == state_skip_back_5:
