@@ -49,16 +49,16 @@ controls_width = int(char_width * max([len(x) for x in command_text_array]))
 controls = numpy.zeros((controls_height, controls_width), numpy.uint8)
 
 y0, dy = line_height, line_height
-for current_frame, line in enumerate(help_text.split('\n')):
-	y = y0 + current_frame * dy
+for frame_index_current, line in enumerate(help_text.split('\n')):
+	y = y0 + frame_index_current * dy
 	cv2.putText(controls, line, (int(line_height / 2), y), cv2.FONT_HERSHEY_SIMPLEX, font_size, 255)
 
 cap = cv2.VideoCapture(video)
 frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
 print("frame_count", frame_count)
 
-current_frame = 0
-preIndex = 0
+frame_index_current = 0
+frame_index_previous = 0
 frame_rate = 30
 bFirstInitUi = False
 
@@ -98,18 +98,18 @@ while True:
 	cv2.imshow(windows_controls, controls)
 	try:
 
-		if current_state != state_pause or preIndex != current_frame:
-			if current_frame >= frame_count:
-				current_frame = 0
-			elif current_frame < 0:
-				current_frame = int(frame_count - 1)
+		if current_state != state_pause or frame_index_previous != frame_index_current:
+			if frame_index_current >= frame_count:
+				frame_index_current = 0
+			elif frame_index_current < 0:
+				frame_index_current = int(frame_count - 1)
 
-			cv2.setTrackbarPos(frame_trackbar, window_video, current_frame)
-			if preIndex != current_frame - 1:
-				cap.set(cv2.CAP_PROP_POS_FRAMES, current_frame)
-				print("seek to", current_frame)
+			cv2.setTrackbarPos(frame_trackbar, window_video, frame_index_current)
+			if frame_index_previous != frame_index_current - 1:
+				cap.set(cv2.CAP_PROP_POS_FRAMES, frame_index_current)
+				print("seek to", frame_index_current)
 
-			print('index', current_frame)
+			print('index', frame_index_current)
 			ret, im = cap.read()
 			# displayW = 1280.0
 			# r = displayW / im.shape[1]
@@ -118,11 +118,11 @@ while True:
 			# h, w, _ = im.shape
 			cv2.resizeWindow(window_video, im.shape[1] * 2, im.shape[0] * 2)
 
-			cv2.putText(im, str(current_frame), (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
+			cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
 			cv2.imshow(window_video, im)
 			if current_state != state_play:
 				current_state = state_pause
-			preIndex = current_frame
+			frame_index_previous = frame_index_current
 			if not bFirstInitUi:
 				bFirstInitUi = True
 
@@ -143,16 +143,16 @@ while True:
 			frame_rate = cv2.getTrackbarPos(speed_trackbar, window_video)
 			if frame_rate > 0:
 				sleep(1.0 / frame_rate)
-				current_frame += 1
+				frame_index_current += 1
 			continue
 		if current_state == state_pause:
-			current_frame = cv2.getTrackbarPos(frame_trackbar, window_video)
+			frame_index_current = cv2.getTrackbarPos(frame_trackbar, window_video)
 		if current_state == state_exit:
 			break
 		if current_state == state_skip_back:
-			current_frame -= 1
+			frame_index_current -= 1
 		if current_state == state_skip_fwd:
-			current_frame += 1
+			frame_index_current += 1
 		if current_state == state_speed_decrease:
 			frame_rate = max(frame_rate - fps_increment, 0)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
@@ -163,13 +163,14 @@ while True:
 		if current_state == state_snapshot:
 			split_video_string = video.replace("\\", "/").split("/")
 			filename = split_video_string[len(split_video_string) - 1]
-			snapshot_filename = "./" + filename.split(".")[0] + "_snapshot_" + str(current_frame).rjust(5, '0') + ".jpg"
+			snapshot_filename = "./" + filename.split(".")[0] + "_snapshot_" + str(frame_index_current).rjust(5,
+																											  '0') + ".jpg"
 			cv2.imwrite(snapshot_filename, im)
-			print("Snap of Frame", current_frame, "saved to", snapshot_filename)
+			print("Snap of Frame", frame_index_current, "saved to", snapshot_filename)
 		if current_state == state_skip_fwd_5:
-			current_frame += 5
+			frame_index_current += 5
 		if current_state == state_skip_back_5:
-			current_frame -= 5
+			frame_index_current -= 5
 		if current_state == state_play_toggle:
 			current_state = state_pause if (preStatus == state_play) else state_play
 
