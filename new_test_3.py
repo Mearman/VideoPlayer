@@ -26,7 +26,9 @@ cv2.namedWindow(windows_controls)
 # cv2.moveWindow('controls', 250, 50)
 
 controls = numpy.zeros((50, 750), numpy.uint8)
-cv2.putText(controls, "W/w: Play, S/s: Stay, A/a: Prev, D/d: Next, E/e: Fast, Q/q: Slow, Esc: Exit", (40, 20),
+cv2.putText(controls,
+			"Space: Play/Pause, Left/Right: 1 frame jump, Up/Down: 5 frame jump, +/-: playback speed, Esc: Exit",
+			(40, 20),
 			cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
 
 cap = cv2.VideoCapture(video)
@@ -87,16 +89,16 @@ while True:
 			ord('w'): 'play', ord('W'): 'play',
 			ord('a'): 'prev_frame', ord('A'): 'prev_frame',
 			ord('d'): 'next_frame', ord('D'): 'next_frame',
-			ord('q'): 'slow', ord('Q'): 'slow',
-			ord('e'): 'fast', ord('E'): 'fast',
+			ord('-'): 'slow', ord('_'): 'slow',
+			ord('+'): 'fast', ord('='): 'fast',
 			ord('c'): 'snap', ord('C'): 'snap',
 			ord('j'): 'next_5_frame', ord('J'): 'next_5_frame',
 			ord('h'): 'pre_5_frame', ord('H'): 'pre_5_frame',
 			ord(' '): 'play_pause', ord(' '): 'play_pause',
-			2555904: 'next_5_frame',
-			2424832: 'pre_5_frame',
-			2490368: 'next_frame',
-			2621440: 'prev_frame',
+			2555904: 'next_frame',
+			2424832: 'prev_frame',
+			2490368: 'next_5_frame',
+			2621440: 'pre_5_frame',
 			-1: status,
 			27: 'exit'}[cv2.waitKeyEx(10)]
 
