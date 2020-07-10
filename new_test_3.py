@@ -67,8 +67,10 @@ print("frame_count", frame_count)
 temp_im = cap.read()[1]
 cv2.resizeWindow(window_video, temp_im.shape[1] * 2, temp_im.shape[0] * 2)
 
+column_headings = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+
 df = pd.DataFrame(False, index=range(0, int(frame_count)),
-				  columns=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+				  columns=column_headings)
 print(df)
 
 frame_index_current = 0
@@ -126,9 +128,9 @@ while True:
 			ret, im = cap.read()
 
 			cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
-			df_current_row = df.loc[frame_index_current, :]
+			df_current_row = df.iloc[frame_index_current, :]
 			df_string = ' '.join(str(int(d)) for d in df_current_row)
-			print("df at", frame_index_current, df_string)
+			print("df at", frame_index_current, "\n" + df_string)
 			cv2.putText(im, df_string, (10, 60), cv2.FONT_HERSHEY_SIMPLEX,
 						0.75,
 						(128, 128, 128),
@@ -151,6 +153,9 @@ while True:
 			ord('-'): state_speed_decrease, ord('_'): state_speed_decrease,
 			ord('c'): state_snapshot, ord('C'): state_snapshot,
 			ord('s'): state_snapshot, ord('s'): state_snapshot,
+			ord('0'): "0", ord('1'): "1", ord('2'): "2", ord('3'): "3", ord('4'): "4", ord('5'): "5", ord('6'): "6",
+			ord('7'): "7",
+			ord('8'): "8", ord('9'): "9",
 			-1: current_state,
 			ord('q'): state_exit, ord('Q'): state_exit,
 			27: state_exit
@@ -193,7 +198,10 @@ while True:
 			frame_index_current -= big_skip
 		if current_state == state_play_toggle:
 			current_state = state_pause if (preStatus == state_play) else state_play
-
+		if current_state in column_headings:
+			df.iat[frame_index_current, int(current_state)] = not df.iloc[frame_index_current, int(current_state)]
+			print("df at", frame_index_current, "update to",
+				  "\n" + ' '.join(str(int(d)) for d in df.iloc[frame_index_current, :]))
 	except KeyError:
 		print("Invalid Key was pressed")
 cv2.destroyAllWindows()
