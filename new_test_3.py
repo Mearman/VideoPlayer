@@ -120,7 +120,7 @@ while True:
 		if status == 'next_frame':
 			i += 1
 		if status == 'slow':
-			frame_rate = max(frame_rate - 5, 0)
+			frame_rate = max(frame_rate - 5, 1)
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 		if status == 'fast':
 			frame_rate = min(100, frame_rate + 5)
