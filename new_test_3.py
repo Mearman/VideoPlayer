@@ -15,13 +15,12 @@ if len(sys.argv) <= 1:
 
 video = sys.argv[1]
 
-windName = video
+window_video = video
 windows_controls = "controls"
 
-# cv2.namedWindow(windName,cv2.WINDOW_NORMAL)
-cv2.namedWindow(windName)
-cv2.moveWindow(windName, 100, 100)
-cv2.resizeWindow(windName, 500, 100)
+cv2.namedWindow(window_video, cv2.WINDOW_NORMAL)
+cv2.moveWindow(window_video, 100, 100)
+cv2.resizeWindow(window_video, 500, 100)
 
 cv2.namedWindow(windows_controls)
 # cv2.moveWindow('controls', 250, 50)
@@ -41,11 +40,11 @@ bFirstInitUi = False
 
 
 def create_track_bar():
-	cv2.createTrackbar('S', windName, 0, int(tots) - 1, flick)
-	cv2.setTrackbarPos('S', windName, 0)
+	cv2.createTrackbar('S', window_video, 0, int(tots) - 1, flick)
+	cv2.setTrackbarPos('S', window_video, 0)
 
-	cv2.createTrackbar('F', windName, 1, 100, flick)
-	cv2.setTrackbarPos('F', windName, frame_rate)
+	cv2.createTrackbar('F', window_video, 1, 100, flick)
+	cv2.setTrackbarPos('F', window_video, frame_rate)
 
 
 def process(im):
@@ -62,7 +61,7 @@ while True:
 			if i == tots - 1:
 				i = 0
 
-			cv2.setTrackbarPos('S', windName, i)
+			cv2.setTrackbarPos('S', window_video, i)
 			if preIndex != i - 1:
 				cap.set(cv2.CAP_PROP_POS_FRAMES, i)
 				print('call seek')
@@ -76,7 +75,7 @@ while True:
 
 			cv2.putText(im, str(i), (10, 30),  # putText(图片，添加的文字，左上角坐标，字体，字体大小，颜色，字体粗细)
 						cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 1)
-			cv2.imshow(windName, im)
+			cv2.imshow(window_video, im)
 			if status != 'play':
 				status = 'stay'
 			preIndex = i
@@ -103,12 +102,12 @@ while True:
 			27: 'exit'}[cv2.waitKeyEx(10)]
 
 		if status == 'play':
-			frame_rate = cv2.getTrackbarPos('F', windName)
+			frame_rate = cv2.getTrackbarPos('F', window_video)
 			sleep(1.0 / frame_rate)
 			i += 1
 			continue
 		if status == 'stay':
-			i = cv2.getTrackbarPos('S', windName)
+			i = cv2.getTrackbarPos('S', window_video)
 		if status == 'exit':
 			break
 		if status == 'prev_frame':
@@ -118,10 +117,10 @@ while True:
 			i += 1
 		if status == 'slow':
 			frame_rate = max(frame_rate - 5, 0)
-			cv2.setTrackbarPos('F', windName, frame_rate)
+			cv2.setTrackbarPos('F', window_video, frame_rate)
 		if status == 'fast':
 			frame_rate = min(100, frame_rate + 5)
-			cv2.setTrackbarPos('F', windName, frame_rate)
+			cv2.setTrackbarPos('F', window_video, frame_rate)
 			status = 'play'
 		if status == 'snap':
 			cv2.imwrite("./" + "Snap_" + str(i) + ".jpg", im)
@@ -136,4 +135,4 @@ while True:
 
 	except KeyError:
 		print("Invalid Key was pressed")
-cv2.destroyWindow(windName)
+cv2.destroyWindow(window_video)
