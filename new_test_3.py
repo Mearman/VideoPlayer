@@ -133,7 +133,11 @@ while True:
 			df_current_row = df.iloc[frame_index_current, :]
 			df_string = ' '.join(str(int(d)) for d in df_current_row)
 			print("df at", frame_index_current, "\n" + df_string)
-			cv2.putText(im, df_string, (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
+			cv2.putText(im, ' '.join(str(int(d)) for d in column_headings), (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
+						0.75,
+						(0, 255, 0),
+						1)
+			cv2.putText(im, df_string, (10, 60), cv2.FONT_HERSHEY_SIMPLEX,
 						0.75,
 						(0, 255, 0),
 						1)
@@ -188,7 +192,7 @@ while True:
 			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 			current_state = state_play if (state_previous == state_play) else state_pause
 		elif current_state == state_snapshot:
-			cv2.putText(im, str(frame_index_current), (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
+			cv2.putText(im, str(frame_index_current), (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 			snapshot_filename = video.split(".")[0] + "_snapshot_" + str(frame_index_current).rjust(5, '0') + ".jpg"
 			cv2.imwrite(snapshot_filename, im)
 			print("frame", frame_index_current, "snapshot saved to", snapshot_filename)
