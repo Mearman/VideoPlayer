@@ -40,13 +40,16 @@ preIndex = 0
 frame_rate = 30
 bFirstInitUi = False
 
+frame_trackbar = "frame"
+speed_trackbar = "fps"
+
 
 def create_track_bar():
-	cv2.createTrackbar('S', window_video, 0, int(tots) - 1, flick)
-	cv2.setTrackbarPos('S', window_video, 0)
+	cv2.createTrackbar(frame_trackbar, window_video, 0, int(tots) - 1, flick)
+	cv2.setTrackbarPos(frame_trackbar, window_video, 0)
 
-	cv2.createTrackbar('F', window_video, 1, 100, flick)
-	cv2.setTrackbarPos('F', window_video, frame_rate)
+	cv2.createTrackbar(speed_trackbar, window_video, 1, 100, flick)
+	cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 
 
 def process(im):
@@ -63,7 +66,7 @@ while True:
 			if i == tots - 1:
 				i = 0
 
-			cv2.setTrackbarPos('S', window_video, i)
+			cv2.setTrackbarPos(frame_trackbar, window_video, i)
 			if preIndex != i - 1:
 				cap.set(cv2.CAP_PROP_POS_FRAMES, i)
 				print('call seek')
@@ -103,12 +106,12 @@ while True:
 			27: 'exit'}[cv2.waitKeyEx(10)]
 
 		if status == 'play':
-			frame_rate = cv2.getTrackbarPos('F', window_video)
+			frame_rate = cv2.getTrackbarPos(speed_trackbar, window_video)
 			sleep(1.0 / frame_rate)
 			i += 1
 			continue
 		if status == 'stay':
-			i = cv2.getTrackbarPos('S', window_video)
+			i = cv2.getTrackbarPos(frame_trackbar, window_video)
 		if status == 'exit':
 			break
 		if status == 'prev_frame':
@@ -118,10 +121,10 @@ while True:
 			i += 1
 		if status == 'slow':
 			frame_rate = max(frame_rate - 5, 0)
-			cv2.setTrackbarPos('F', window_video, frame_rate)
+			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 		if status == 'fast':
 			frame_rate = min(100, frame_rate + 5)
-			cv2.setTrackbarPos('F', window_video, frame_rate)
+			cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 			status = 'play'
 		if status == 'snap':
 			cv2.imwrite("./" + "Snap_" + str(i) + ".jpg", im)
