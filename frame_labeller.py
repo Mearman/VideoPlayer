@@ -141,18 +141,28 @@ while True:
 	cv2.imshow(windows_controls, controls)
 	try:
 		if current_state != state_pause or frame_index_previous != frame_index_current:
-			if frame_index_current >= frame_count:
-				frame_index_current = 0
-			elif frame_index_current < 0:
-				frame_index_current = int(frame_count - 1)
+			while True:
+				if frame_index_current >= frame_count:
+					frame_index_current = 0
+				elif frame_index_current < 0:
+					frame_index_current = int(frame_count - 1)
 
-			cv2.setTrackbarPos(frame_trackbar, window_video, frame_index_current)
-			if frame_index_previous != frame_index_current - 1:
-				cap.set(cv2.CAP_PROP_POS_FRAMES, frame_index_current)
-				print("seek to", frame_index_current)
+				cv2.setTrackbarPos(frame_trackbar, window_video, frame_index_current)
 
-			print('index', frame_index_current)
-			ret, im = cap.read()
+				if frame_index_previous != frame_index_current - 1:
+					cap.set(cv2.CAP_PROP_POS_FRAMES, frame_index_current)
+					print("seek to", frame_index_current)
+
+				print('index', frame_index_current)
+				ret, im = cap.read()
+				if ret == True:
+					break
+				else:
+					print("bad frame at", frame_index_current)
+					if current_state == state_skip_back or current_state == state_skip_back_big:
+						frame_index_current -= 1
+					else:
+						frame_index_current += 1
 
 			# cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 			df_current_row = df.iloc[frame_index_current, :]
