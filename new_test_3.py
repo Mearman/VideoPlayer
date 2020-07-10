@@ -19,6 +19,7 @@ window_video = video
 windows_controls = "controls"
 
 fps_increment = 5
+big_skip = 5
 
 cv2.namedWindow(window_video, cv2.WINDOW_NORMAL)
 cv2.moveWindow(window_video, 500, 100)
@@ -68,9 +69,9 @@ speed_trackbar = "fps"
 state_play = "play"
 state_pause = "pause"
 state_skip_fwd = "skip_fwd"
-state_skip_fwd_5 = "skip_fwd_5"
+state_skip_fwd_big = "state_skip_fwd_big"
 state_skip_back = "skip_back"
-state_skip_back_5 = "skip_back_5"
+state_skip_back_big = "state_skip_back_big"
 state_speed_increase = "speed_increase"
 state_speed_decrease = "speed_decrease"
 state_snapshot = "snapshot"
@@ -127,8 +128,8 @@ while True:
 			ord(' '): state_play_toggle,
 			2555904: state_skip_fwd,
 			2424832: state_skip_back,
-			2490368: state_skip_fwd_5,
-			2621440: state_skip_back_5,
+			2490368: state_skip_fwd_big,
+			2621440: state_skip_back_big,
 			ord('+'): state_speed_increase, ord('='): state_speed_increase,
 			ord('-'): state_speed_decrease, ord('_'): state_speed_decrease,
 			ord('c'): state_snapshot, ord('C'): state_snapshot,
@@ -166,10 +167,10 @@ while True:
 				str(frame_index_current).rjust(5, '0') + ".jpg"
 			cv2.imwrite(snapshot_filename, im)
 			print("frame", frame_index_current, "snapshot saved to", snapshot_filename)
-		if current_state == state_skip_fwd_5:
-			frame_index_current += 5
-		if current_state == state_skip_back_5:
-			frame_index_current -= 5
+		if current_state == state_skip_fwd_big:
+			frame_index_current += big_skip
+		if current_state == state_skip_back_big:
+			frame_index_current -= big_skip
 		if current_state == state_play_toggle:
 			current_state = state_pause if (preStatus == state_play) else state_play
 
