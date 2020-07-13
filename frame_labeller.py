@@ -26,11 +26,6 @@ state_exit = "exit"
 
 windows_controls = "controls"
 
-
-def flick(x):
-	pass
-
-
 def main():
 	if len(sys.argv) > 1:
 		video = sys.argv[1]
@@ -48,7 +43,7 @@ def main():
 	print(split_path(video)[2])
 
 	window_video = video
-	
+
 	fps_increment = 5
 	big_skip = 5
 
@@ -218,10 +213,10 @@ def main():
 
 
 def create_track_bar(window_video="Video Player", frame_count=0, frame_rate=30):
-	cv2.createTrackbar(frame_trackbar, window_video, 0, int(frame_count) - 1, flick)
+	cv2.createTrackbar(frame_trackbar, window_video, 0, int(frame_count) - 1, on_change_do_nothing)
 	cv2.setTrackbarPos(frame_trackbar, window_video, 0)
 
-	cv2.createTrackbar(speed_trackbar, window_video, 1, 100, flick)
+	cv2.createTrackbar(speed_trackbar, window_video, 1, 100, on_change_do_nothing)
 	cv2.setTrackbarPos(speed_trackbar, window_video, frame_rate)
 
 
@@ -275,6 +270,10 @@ def is_valid_video(file):
 		print("Please enter an absolute or relative video path")
 		print("(mp4, avi or 3gp)")
 		return False
+
+
+def on_change_do_nothing(x):
+	pass
 
 
 main()
