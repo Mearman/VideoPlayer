@@ -100,7 +100,7 @@ def main():
 
 	current_state = state_skip_fwd
 	create_track_bar(window_video, frame_count, frame_rate)
-
+	parse_file_path(video)
 	while True:
 		cv2.imshow(windows_controls, controls)
 		try:
@@ -192,7 +192,8 @@ def main():
 				current_state = state_play if (state_previous == state_play) else state_pause
 			elif current_state == state_snapshot:
 				cv2.putText(im, str(frame_index_current), (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
-				snapshot_filename = video.split(".")[0] + "_snapshot_" + str(frame_index_current).rjust(5, '0') + ".jpg"
+				snapshot_filename = "/".join(parse_file_path(video)) + "_snapshot_" + str(
+					frame_index_current).rjust(5, '0') + ".jpg"
 				cv2.imwrite(snapshot_filename, im)
 				print("frame", frame_index_current, "snapshot saved to", snapshot_filename)
 			elif current_state == state_save_csv:
@@ -226,7 +227,7 @@ def process(im):
 
 
 def save_csv(video, df):
-	filename_csv = video.split(".")[0] + ".csv"
+	filename_csv = "/".join(parse_file_path(video)) + ".csv"
 	np.savetxt(filename_csv, df, delimiter=',')
 	print("csv saved to", filename_csv)
 
