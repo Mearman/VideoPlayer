@@ -34,14 +34,22 @@ def flick(x):
 def main():
 	if len(sys.argv) > 1:
 		video = sys.argv[1]
+		valid_file = is_valid_video(video)
+	# valid_file = os.path.exists(video)
+	# if not valid_file:
+	# 	valid_file = False
+	# 	print("Bad video path")
 	else:
-		print("No file name argument provided")
+		print("No video path argument provided")
 		valid_file = False
-		while not valid_file:
-			video = input("Full video path: ")
-			valid_file = os.path.exists(video)
-			if not valid_file:
-				print("Sorry that wasn't valid")
+
+	while not valid_file:
+		video = input("video path: ")
+		valid_file = is_valid_video(video)
+		if not valid_file:
+			print("Sorry that wasn't valid")
+
+	print(split_path(video)[2])
 
 	window_video = video
 	windows_controls = "controls"
@@ -260,9 +268,18 @@ def split_path(file):
 	temp_file = file.replace("\\", "/")
 	path = file[:temp_file.rfind("/")]
 	filename = file[temp_file.rfind("/") + 1:temp_file.rfind(".")]
-	extension = file[temp_file.rfind("."):]
+	extension = file[temp_file.rfind(".") + 1:]
 	print(extension)
 	return path, filename, extension
+
+
+def is_valid_video(file):
+	if os.path.exists(file) and split_path(file)[2] in {"mp4", "avi", "3gp"}:
+		return True
+	else:
+		print("Please enter an absolute or relative video path")
+		print("(mp4, avi or 3gp)")
+		return False
 
 
 main()
