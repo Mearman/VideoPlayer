@@ -98,7 +98,7 @@ def main():
 
 	current_state = state_skip_fwd
 	create_track_bar(window_video, frame_count, frame_rate)
-	strip_extension(video)
+
 	while True:
 		cv2.imshow(windows_controls, controls)
 		try:
