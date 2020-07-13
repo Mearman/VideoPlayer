@@ -22,9 +22,14 @@ state_speed_decrease = "speed_decrease"
 state_snapshot = "snapshot"
 state_save_csv = "save_csv"
 state_play_toggle = "play_toggle"
+state_rotation_none = "state_rotation_none"
+state_rotation_90 = "state_rotation_90"
+state_rotation_180 = "state_rotation_180"
+state_rotation_270 = "state_rotation_270"
 state_exit = "exit"
 
 windows_controls = "controls"
+
 
 def main():
 	if len(sys.argv) > 1:
@@ -61,6 +66,7 @@ def main():
 		"c           Capture frame",
 		"s           Save csv of labels",
 		"0-9        Toggle label 0-9",
+		"a,s,d,f      0-270 degree rotation",
 		"esc/q      Quit", ]
 	help_text = "\n".join(command_text_array)
 	print(help_text, "\n")
@@ -99,6 +105,8 @@ def main():
 	current_state = state_skip_fwd
 	create_track_bar(window_video, frame_count, frame_rate)
 
+	manual_rotation = "none"
+
 	while True:
 		cv2.imshow(windows_controls, controls)
 		try:
@@ -126,6 +134,10 @@ def main():
 						else:
 							frame_index_current += 1
 
+				original_image = im
+				if manual_rotation != "none":
+					im = cv2.rotate(im, manual_rotation)
+
 				# cv2.putText(im, str(frame_index_current), (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
 				df_current_row = df.iloc[frame_index_current, :]
 				df_string = ' '.join(str(int(d)) for d in df_current_row)
@@ -138,6 +150,7 @@ def main():
 							0.75,
 							(0, 255, 0),
 							1)
+
 				cv2.imshow(window_video, im)
 				if current_state != state_play:
 					current_state = state_pause
@@ -159,6 +172,10 @@ def main():
 				ord('0'): "0", ord('1'): "1", ord('2'): "2", ord('3'): "3", ord('4'): "4", ord('5'): "5", ord('6'): "6",
 				ord('7'): "7",
 				ord('8'): "8", ord('9'): "9",
+				ord('a'): state_rotation_none,
+				ord('s'): state_rotation_90,
+				ord('d'): state_rotation_180,
+				ord('f'): state_rotation_270,
 				-1: current_state,
 				ord('q'): state_exit, ord('Q'): state_exit,
 				27: state_exit
@@ -207,6 +224,19 @@ def main():
 				print("df at", frame_index_current, "update to",
 					  "\n" + ' '.join(str(int(d)) for d in df.iloc[frame_index_current, :]))
 				save_csv(video, df)
+			elif current_state in {state_rotation_none, state_rotation_90, state_rotation_180, state_rotation_270}:
+				if current_state == state_rotation_none:
+					manual_rotation = "none"
+				elif current_state == state_rotation_90:
+					manual_rotation = cv2.ROTATE_90_CLOCKWISE
+				elif current_state == state_rotation_180:
+					manual_rotation = cv2.ROTATE_180
+				elif current_state == state_rotation_270:
+					manual_rotation = cv2.ROTATE_90_COUNTERCLOCKWISE
+
+				rotate_window(window_video, original_image, manual_rotation)
+				current_state = state_play if (state_previous == state_play) else state_pause
+
 		except KeyError:
 			print("Invalid Key was pressed")
 	cv2.destroyAllWindows()
@@ -274,6 +304,15 @@ def is_valid_video(file):
 
 def on_change_do_nothing(x):
 	pass
+
+
+def rotate_window(window_name, frame, rotation):
+	if not rotation == "none":
+		frame = cv2.rotate(frame, rotation)
+
+	cv2.resizeWindow(window_name, frame.shape[1] * 2, frame.shape[0] * 2)
+
+	cv2.imshow(window_name, frame)
 
 
 main()
