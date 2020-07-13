@@ -249,5 +249,12 @@ def get_dataframe(video_file):
 		)
 
 
+def parse_file_path(file):
+	temp_file = file.replace("\\", "/")
+	path = file[:temp_file.rfind("/")]
+	filename = file[temp_file.rfind("/") + 1:temp_file.rfind(".")]
+	return path, filename
+
+
 main()
 # cv2.destroyWindow(window_video)
