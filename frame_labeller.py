@@ -100,7 +100,7 @@ def main():
 
 	current_state = state_skip_fwd
 	create_track_bar(window_video, frame_count, frame_rate)
-	parse_file_path(video)
+	strip_extension(video)
 	while True:
 		cv2.imshow(windows_controls, controls)
 		try:
@@ -192,7 +192,7 @@ def main():
 				current_state = state_play if (state_previous == state_play) else state_pause
 			elif current_state == state_snapshot:
 				cv2.putText(im, str(frame_index_current), (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1)
-				snapshot_filename = "/".join(parse_file_path(video)) + "_snapshot_" + str(
+				snapshot_filename = strip_extension(video) + "_snapshot_" + str(
 					frame_index_current).rjust(5, '0') + ".jpg"
 				cv2.imwrite(snapshot_filename, im)
 				print("frame", frame_index_current, "snapshot saved to", snapshot_filename)
@@ -227,7 +227,7 @@ def process(im):
 
 
 def save_csv(video, df):
-	filename_csv = "/".join(parse_file_path(video)) + ".csv"
+	filename_csv = strip_extension(video) + ".csv"
 	np.savetxt(filename_csv, df, delimiter=',')
 	print("csv saved to", filename_csv)
 
@@ -250,12 +250,19 @@ def get_dataframe(video_file):
 		)
 
 
-def parse_file_path(file):
+def strip_extension(file):
+	temp_file = file.replace("\\", "/")
+	path = file[:temp_file.rfind(".")]
+	return path
+
+
+def split_path(file):
 	temp_file = file.replace("\\", "/")
 	path = file[:temp_file.rfind("/")]
 	filename = file[temp_file.rfind("/") + 1:temp_file.rfind(".")]
-	return path, filename
+	extension = file[temp_file.rfind("."):]
+	print(extension)
+	return path, filename, extension
 
 
 main()
-# cv2.destroyWindow(window_video)
