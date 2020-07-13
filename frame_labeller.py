@@ -35,10 +35,6 @@ def main():
 	if len(sys.argv) > 1:
 		video = sys.argv[1]
 		valid_file = is_valid_video(video)
-	# valid_file = os.path.exists(video)
-	# if not valid_file:
-	# 	valid_file = False
-	# 	print("Bad video path")
 	else:
 		print("No video path argument provided")
 		valid_file = False
@@ -52,8 +48,7 @@ def main():
 	print(split_path(video)[2])
 
 	window_video = video
-	windows_controls = "controls"
-
+	
 	fps_increment = 5
 	big_skip = 5
 
