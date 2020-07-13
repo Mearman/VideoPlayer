@@ -117,7 +117,7 @@ def main():
 
 					print('index', frame_index_current)
 					ret, im = cap.read()
-					if ret == True:
+					if ret:
 						break
 					else:
 						print("bad frame at", frame_index_current)
