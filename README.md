@@ -39,8 +39,8 @@ pip install numpy
 
 When no params are passed, you'll be prompted to provide a valid file
 
-```
-$ python frame_labeller.py videos/video_file.mp4
+```0
+$ python frame_labeller.py
 No file name argument provided
 Full video path:
 ```
