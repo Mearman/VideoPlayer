@@ -11,6 +11,22 @@ When scrubbing through frames, arbitrary labels of 0 - 9 can be assigned with th
 
 ## Dependency installation
 
+The dependencies can be install in several ways.
+
+### Using [setup.py](./setup.py)
+
+```
+pip install .
+```
+
+### Using [requirements.txt](./requirements.txt)
+
+```
+pip install -r requirements.txt
+```
+
+### Manually
+
 ```
 pip install opencv-python
 pip install pandas
