@@ -2,6 +2,8 @@
 ML-Frabeller is a Python based video frame labelleling tool aimed at laballeing video datasets for machine learning model training.
 This tool uses OpenCV for its GUI and to allow frame by frame playback.
 
+This project is based on [maximus009](https://github.com/maximus009)'s Python OpenCV [video player](https://github.com/maximus009/VideoPlayer) that was written in 2015 and updated in 2019 [here](https://github.com/839687571/VideoPlayer).
+
 The video can be played through with variable FPS and skipped forward and backward frame-by-frame.
 
 When scrubbing through frames, arbitrary labels of 0 - 9 can be assigned with the 0-9 keys on a frame-by-frame basis. The labels are automatically exported and load to and from a csv in the same directory as the video.
